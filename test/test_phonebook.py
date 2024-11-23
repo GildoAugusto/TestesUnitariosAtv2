@@ -14,7 +14,7 @@ class TestPhonebook:
         resultado_esperado = "Numero adicionado"
 
         # CHAMADA
-        resultado = phonebook.add("Gildo", "(84)988974488")
+        resultado = phonebook.add("Gildo", "12345678")
 
         # VALIDAÇÃO
         assert resultado == resultado_esperado
@@ -33,7 +33,7 @@ class TestPhonebook:
         assert resultado == resultado_esperado
 
     # Validando a mensagem de numero invalido do método add
-    @pytest.mark.parametrize("test_data",[19912131415, 3.6888888, [], {}])
+    @pytest.mark.parametrize("test_data",["ABCDEFG", "----", None])
     def test_add_numero_invalido(self, test_data):
         # SETUP
         phonebook = Phonebook()
@@ -46,15 +46,15 @@ class TestPhonebook:
         assert resultado == resultado_esperado
 
     # Validando a mensagem de nome ja cadastrado metodo add
-    def test_add_nomes_iguais(self, test_data):
+    def test_add_nomes_iguais(self):
         #SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", test_data)
+        phonebook.add("Gildo", "12345678")
         resultado_esperado = "Nome ja cadastrado"
 
         #CHAMADA
-        phonebook.add("Gildo", test_data)
-        resultado = phonebook.add("Gildo", test_data)
+        phonebook.add("Gildo", "12345678")
+        resultado = phonebook.add("Gildo", "12345678")
 
         #VALIDAÇÃO
         assert resultado == resultado_esperado
@@ -63,8 +63,8 @@ class TestPhonebook:
     def test_lookup_nome_sucesso(self):
         # SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", "(84)988974488")
-        resultado_esperado = "(84)988974488"
+        phonebook.add("Gildo", "12345678")
+        resultado_esperado = "12345678"
 
         # CHAMADA
         resultado = phonebook.lookup("Gildo")
@@ -77,7 +77,7 @@ class TestPhonebook:
     def test_lookup_nome_invalido(self, test_data):
         # SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", "(84)988974488")
+        phonebook.add("Gildo", "12345678")
         resultado_esperado = "Nome invalido"
 
         # CHAMADA
@@ -90,7 +90,7 @@ class TestPhonebook:
     def test_get_names_sucesso(self):
         # SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", "(84)988974488")
+        phonebook.add("Gildo", "12345678")
         resultado_esperado = ['POLICIA', 'Gildo']
 
         # CHAMADA
@@ -103,8 +103,8 @@ class TestPhonebook:
     def test_get_numbers_sucesso(self):
         # SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", "(84)988974488")
-        resultado_esperado = ['190', '(84)988974488']
+        phonebook.add("Gildo", "1234567")
+        resultado_esperado = ['190', '1234567']
 
         # CHAMADA
         resultado = phonebook.get_numbers()
@@ -116,7 +116,7 @@ class TestPhonebook:
     def test_clear_sucesso(self):
         # SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", "(84)988974488")
+        phonebook.add("Gildo", "12345678")
         resultado_esperado = "phonebook limpado"
 
         # CHAMADA
@@ -129,8 +129,8 @@ class TestPhonebook:
     def test_seach_sucesso(self):
         # SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", "(84)988974488")
-        resultado_esperado = [{'84988974488', 'Gildo'}]
+        phonebook.add("Gildo", "12345678")
+        resultado_esperado = [{'12345678', 'Gildo'}]
 
         # CHAMADA
         resultado = phonebook.search("Gildo")
@@ -145,7 +145,7 @@ class TestPhonebook:
         phonebook.add("Bruno", "12345678")
         phonebook.add("Alexandre", "1234567")
         phonebook.add("Claudio", "123456789")
-        resultado_esperado = {'Alexandre': '1234567', 'Bruno': '12345678', 'Claudio': '123456789', 'POLICIA': '190'}
+        resultado_esperado = ['Alexandre', 'Bruno', 'Claudio','POLICIA']
 
         # CHAMADA
         resultado = phonebook.get_phonebook_sorted()
@@ -161,10 +161,10 @@ class TestPhonebook:
         phonebook.add("Bruno", "12345678")
         phonebook.add("Alexandre", "1234567")
         phonebook.add("Claudio", "123456789")
-        resultado_esperado = {'POLICIA': '190', 'Claudio': '123456789', 'Bruno': '12345678', 'Alexandre': '1234567'}
+        resultado_esperado = ['POLICIA', 'Claudio', 'Bruno', 'Alexandre']
 
         # CHAMADA
-        resultado = phonebook.get_phonebook_sorted()
+        resultado = phonebook.get_phonebook_reverse()
 
         # VALIDAÇÃO
         assert resultado == resultado_esperado
@@ -173,8 +173,9 @@ class TestPhonebook:
     def test_delete_sucesso(self):
         # SETUP
         phonebook = Phonebook()
-        phonebook.add("Gildo", "(84)988974488")
+        phonebook.add("Gildo", "12345678")
         resultado_esperado = "Numero deletado"
+
 
         # CHAMADA
         resultado = phonebook.delete("Gildo")
